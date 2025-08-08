@@ -26,12 +26,12 @@ export default function Login(){
                 try {
                     const response = await login(dadosLogin);
                     console.log('Login realizado com sucesso:', response);
+                    response.sucess && router.push('/admin');
                 } catch (error) {
                     console.error('Erro ao fazer login:', error);
                 }
             };
             execLogin();
-            router.replace("/admin");
         }
     }
 
@@ -45,7 +45,7 @@ export default function Login(){
                     <label for="email">Digite o seu e-mail de admin:</label>
                     <input type="email" className="w-full bg-blue text-black placeholder:text-black pl-2 mt-2 mb-2 border-black border rounded-md" name="email" required onChange={handleChange} placeholder="Digite seu e-mail aqui!"/>
                     <label for="senha">Digite sua senha de admin:</label>
-                    <input type="password" className="w-full bg-blue text-black placeholder:text-black pl-2 mt-2 border-black border rounded-md" name="senha" required onChange={handleChange} placeholder="Digite sua senha!"/>
+                    <input type="password" className="w-full bg-blue text-black placeholder:text-black pl-2 mt-2 border-black border rounded-md" name="senha" min={6} max={100} required onChange={handleChange} placeholder="Digite sua senha!"/>
                     <button onClick={handleSubmit} type="submit" className="w-[40%] min-w-[100px] h-10 bg-red-500 mt-4 m-auto rounded-md hover:bg-red-700 duration-[800ms] text-white font-semibold text-[1.4rem]">Entrar</button>
                 </form>
             </Container>
