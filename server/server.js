@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./db/connect');
+const gerarOuCarregarChave = require('./service/gerarOuCarregarChave');
 require('dotenv').config();
 
 try {
@@ -11,6 +12,7 @@ try {
     app.use(cors({ origin: 'http://localhost:3002' })); // Habilita CORS
 
     connectDB();
+    const jwtSecret = gerarOuCarregarChave();
 
     app.use(bodyParser.json()); // Para parsing de JSON
     app.use(bodyParser.urlencoded({ extended: true })); // Para parsing de formulários
