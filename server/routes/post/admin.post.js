@@ -22,6 +22,11 @@ router.post('/login', async (req, res) => {
             throw new Error('Funcionário não encontrado');
         }
 
+        const isPasswordValid = await funcionario.comparePassword(dataLogin.senha);
+        if (!isPasswordValid) {
+            throw new Error('Senha incorreta');
+        }
+
         console.log('Dados de login recebidos:', dataLogin);
         console.log('Funcionário encontrado:', funcionario);
         res.status(200).json({ message: 'Login realizado com sucesso', sucess: true });
