@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const validateEmail = require('../../validate/email');
 const validatePassword = require('../../validate/password');
 const findFuncionario = require('../../db/find/funcionario');
+const MascararEmail = require('../../service/mascarar_email');
 
 router.post('/login', async (req, res) => {
     try {
@@ -31,6 +32,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({
                 id: funcionario.id,
                 nome: funcionario.nome,
+                email: MascararEmail(funcionario.email),
                 role: funcionario.role
             },
             process.env.JWT_SECRET,
