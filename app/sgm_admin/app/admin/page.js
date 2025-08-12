@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useUser } from "@/context/user_context";
 import { 
   FaTable, 
   FaUsers, 
@@ -13,6 +14,7 @@ import {
 } from "react-icons/fa";
 
 export default function Home() {
+    const { user } = useUser();
     const [activeMenu, setActiveMenu] = useState("dashboard");
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -24,6 +26,10 @@ export default function Home() {
         { id: "relatorios", label: "Relatórios", icon: FaChartBar },
         { id: "configuracoes", label: "Configurações", icon: FaCog },
     ];
+
+    if (!user) {
+        return <p>Carregando dados do usuário...</p>;
+    }
 
     const renderContent = () => {
         switch(activeMenu) {
@@ -195,7 +201,7 @@ export default function Home() {
                             {menuItems.find(item => item.id === activeMenu)?.label || 'Dashboard'}
                         </h1>
                         <div className="flex items-center space-x-4">
-                            <span className="text-gray-600">Admin</span>
+                            <span className="text-gray-600">{user?.nome}</span>
                             <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
                         </div>
                     </div>
