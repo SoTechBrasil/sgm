@@ -18,8 +18,8 @@ export default function UserLoader(){
                     }
                 });
                 const data = await res.json();
-                if(!data.success) throw new Error(data.message);
-                setUser(data);
+                if(!data.sucess) throw new Error(data.message);
+                setUser(data.user_data);
                 console.log("User data loaded successfully:", data);
             } catch (error) {
                 console.error("Error fetching user:", error);
