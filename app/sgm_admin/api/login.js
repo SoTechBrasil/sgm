@@ -1,6 +1,7 @@
 async function login(dataLogin) {
     const response = await fetch('http://localhost:3000/admin/login', {
         method: 'POST',
+        credentials: 'include', // Inclui cookies na requisição
         headers: {
             'Content-Type': 'application/json'
         },
