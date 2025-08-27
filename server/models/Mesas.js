@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
 const mesaSchema = new mongoose.Schema({
-  numero: {
-    type: Number,
+  table_name: {
+    type: String,
     required: true,
     unique: true,
-    min: 1
+    trim: true
   },
   capacidade: {
-    type: Number,
+    type: String,
     required: true,
-    min: 1,
-    max: 20
+    trim: true,
+    maxlength: 20
   },
   status: {
     type: String,
