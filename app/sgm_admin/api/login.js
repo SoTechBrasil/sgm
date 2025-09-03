@@ -1,11 +1,11 @@
-async function login(dataLogin) {
+async function login(email, senha) {
     const response = await fetch('http://localhost:3000/admin/login', {
         method: 'POST',
         credentials: 'include', // Inclui cookies na requisição
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ dataLogin })
+        body: JSON.stringify({ email, senha })
     });
 
     const data = await response.json();
