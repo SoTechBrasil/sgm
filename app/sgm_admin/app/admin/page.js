@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import Modal from "@/components/Modal/Modal";
+import createTable from "@/api/table";
 import { useUser } from "@/context/user_context";
 import { 
   FaTable, 
@@ -17,6 +19,7 @@ export default function Home() {
     const { user } = useUser();
     const [activeMenu, setActiveMenu] = useState("dashboard");
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const menuItems = [
         { id: "dashboard", label: "Dashboard", icon: FaHome },
@@ -29,6 +32,11 @@ export default function Home() {
 
     if (!user) {
         return <p>Carregando dados do usuário...</p>;
+    }
+
+    const handleCreateTable = async (e)=> {
+        e.preventDefault();
+        
     }
 
     const renderContent = () => {
@@ -59,7 +67,7 @@ export default function Home() {
                     <div>
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold">Gerenciar Mesas</h2>
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => setModalOpen(true)}>
                                 Nova Mesa
                             </button>
                         </div>
@@ -80,6 +88,24 @@ export default function Home() {
                                 ))}
                             </div>
                         </div>
+                        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                            <h2 className="text-2xl font-bold text-black mb-4">Nova Mesa</h2>
+                            <form>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-black">Nome da Mesa</label>
+                                    <input type="text" placeholder="Ex: Mesa 1" className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
+                                </div>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-black">Capacidade Maxima</label>
+                                    <input type="text" placeholder="Ex: 4" className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
+                                </div>
+                                <div className="flex justify-end">
+                                    <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => setModalOpen(false)}>
+                                        Criar Mesa
+                                    </button>
+                                </div>
+                            </form>
+                        </Modal>
                     </div>
                 );
             case "funcionarios":
