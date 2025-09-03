@@ -24,7 +24,7 @@ export default function Login(){
         } else {
             const execLogin = async () => {
                 try {
-                    const response = await login(dadosLogin);
+                    const response = await login(dadosLogin.email, dadosLogin.senha);
                     console.log('Login realizado com sucesso:', response);
                     response.sucess && router.push('/admin');
                 } catch (error) {
