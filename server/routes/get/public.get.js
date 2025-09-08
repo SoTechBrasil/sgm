@@ -13,10 +13,11 @@ router.get('/list/mesas', async (req, res) => {
             return {
                 mesa_name: mesa.table_name,
                 mesa_status: mesa.status,
-                capacidade_max: mesa.capacidade
+                capacidade_max: mesa.capacidade,
+                observacoes: mesa.observacoes
             }
         })
-        
+
         res.json(mesasFiltradas);
     } catch (e) {
         console.error(e);
