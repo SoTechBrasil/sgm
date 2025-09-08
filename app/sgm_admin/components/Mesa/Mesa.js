@@ -7,6 +7,7 @@ import { createTable, listTables } from "@/api/table";
 export default function Mesa() {
     const [modalOpen, setModalOpen] = useState(false);
     const [mesas, setMesas] = useState([]);
+    const [newMeasa, setNewMesa] = useState({ table_name: '', capacidade: '', observacoes: '' });
 
     useEffect(() => {
         listMesas();
@@ -22,25 +23,40 @@ export default function Mesa() {
         }
     }
 
+    const handleCreateTable = async ()=> {
+        try {
+            await createTable(newMeasa.table_name, newMeasa.capacidade, newMeasa.observacoes).then(()=> {
+                console.log('Mesa criada com sucesso');
+                setNewMesa({ table_name: '', capacidade: '', observacoes: '' });
+                setModalOpen(false);
+                listMesas();
+            }).catch((e) => {
+                console.error('Erro ao criar mesa', e);
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-black">Gerenciar Mesas</h2>
+                <h2 className="text-2xl font-bold text-gray-800">Gerenciar Mesas</h2>
                 <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => setModalOpen(true)}>
                     Nova Mesa
                 </button>
             </div>
             <div className="bg-white rounded-lg shadow p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(mesa => (
-                        <div key={mesa} className="border rounded-lg p-4 text-center">
+                    {mesas.map(mesa => (
+                        <div key={mesa.mesa_name} className="border rounded-lg p-4 text-center">
                             <FaTable className="mx-auto text-2xl mb-2 text-gray-600" />
-                            <h3 className="font-semibold">Mesa {mesa}</h3>
-                            <span className={`inline-block px-2 py-1 rounded text-sm ${mesa % 3 === 0 ? 'bg-red-100 text-red-800' :
-                                mesa % 2 === 0 ? 'bg-yellow-100 text-yellow-800' :
+                            <h3 className="font-semibold text-gray-400">{mesa.mesa_name}</h3>
+                            <span className={`inline-block px-2 py-1 rounded text-sm ${mesa.mesa_status === 'Ocupada' ? 'bg-red-100 text-red-800' :
+                                mesa.mesa_status === 'Reservada' ? 'bg-yellow-100 text-yellow-800' :
                                     'bg-green-100 text-green-800'
                                 }`}>
-                                {mesa % 3 === 0 ? 'Ocupada' : mesa % 2 === 0 ? 'Reservada' : 'Livre'}
+                                {mesa.mesa_status}
                             </span>
                         </div>
                     ))}
@@ -51,15 +67,22 @@ export default function Mesa() {
                 <form>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-black">Nome da Mesa</label>
-                        <input type="text" placeholder="Ex: Mesa 1" className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
+                        <input type="text" placeholder="Ex: Mesa 1" value={newMeasa.table_name} onChange={(e)=> setNewMesa({...newMeasa, table_name: e.target.value})} className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-black">Capacidade Maxima</label>
-                        <input type="text" placeholder="Ex: 4" className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
+                        <input type="text" placeholder="Ex: 4" value={newMeasa.capacidade} onChange={(e)=> setNewMesa({...newMeasa, capacidade: e.target.value})} className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
                     </div>
-                    <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={() => setModalOpen(false)}>
-                        Criar Mesa
-                    </button>
+                    <div>
+                        <label className="block text-sm font-medium text-black">Observações</label>
+                        <textarea placeholder="Ex: Mesa perto da janela" value={newMeasa.observacoes} onChange={(e)=> setNewMesa({...newMeasa, observacoes: e.target.value})} className="mt-1 block w-full border border-gray-300 placeholder:text-black rounded-md shadow-sm p-2 text-black" />
+                    </div>
+                    <div className="mt-6 flex justify-center items-center">
+                        <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={handleCreateTable}>
+                            Criar Mesa
+                        </button>
+                    </div>
+                    
                 </form>
             </Modal>
         </div>
