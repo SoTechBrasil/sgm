@@ -15,4 +15,23 @@ async function createTable(table_name, capacidade_max, observacoes){
     return data;
 }
 
-export default createTable;
+async function listTables() {
+    const response = await fetch('http://localhost:3000/list/mesas', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Erro ao listar mesas');
+    }
+    return data;
+}
+
+export {
+    createTable,
+    listTables
+};
