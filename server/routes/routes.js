@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authenticateJWT = require('../middleware/authentication');
 
 const garcon_routes_get = require('./get/garcon.get');
 const admin_routes_get = require('./get/admin.get');
