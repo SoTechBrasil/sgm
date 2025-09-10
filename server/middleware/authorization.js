@@ -21,9 +21,11 @@ const AuthorizationUserMiddleware = (requiredPermissions = []) => {
             const hasPermission = requiredPermissions.every(p => userPermissions.includes(p));
 
             if(!hasPermission){
+                console.log(req.user.nome + " tentou acessar uma rota sem permissao");
                 return res.status(403).json({ mensagem: 'Acesso negado.', success: false });
             }
 
+            console.log(req.user.nome + " acessou uma rota com sucesso");
             next();
         } catch (error) {
             console.error(error);
