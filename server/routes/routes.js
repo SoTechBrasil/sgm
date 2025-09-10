@@ -11,7 +11,7 @@ const admin_routes_post = require('./post/admin.post');
 const public_routes_post = require('./post/public.post');
 
 // Rotas Get
-router.use('/', public_routes_get);
+router.use('/', authenticateJWT, public_routes_get);
 router.use('/garcon', garcon_routes_get);
 router.use('/admin', admin_routes_get);
 
