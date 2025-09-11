@@ -1,5 +1,5 @@
 async function login(email, senha) {
-    const response = await fetch('http://localhost:3000/admin/login', {
+    const response = await fetch('http://localhost:3000/login/admin', {
         method: 'POST',
         credentials: 'include', // Inclui cookies na requisição
         headers: {
