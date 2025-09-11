@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Mesa = require('../../models/Mesas');
 const AuthorizationUserMiddleware = require('../../middleware/authorization');
+const AuthenticateJWT = require('../../middleware/authentication');
 
 router.get('/', (req, res) => {
     res.json({ mensagem: 'Servidor funcionando com body-parser!' });
 });
 
-router.get('/list/mesas', AuthorizationUserMiddleware(['read']), async (req, res) => {
+router.get('/list/mesas', AuthenticateJWT, AuthorizationUserMiddleware(['read']), async (req, res) => {
     try {
         const mesas = await Mesa.find();
         const mesasFiltradas = mesas.map(mesa => {
